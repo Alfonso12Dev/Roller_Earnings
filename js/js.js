@@ -1,57 +1,55 @@
-console.log("Hello World");
+const secFullDay = 86400;
+
+console.log("Javascript cargado");
 
 function blockAmount() {
-    // Returns pre-set block rewards based on block selected
-    // Update if updated on rollercoin
+    //--> Valores por defecto conocidos en la actualidad (14/12/2024)
     switch (document.getElementById("block-type").selectedIndex) {
+
+        //BTC
         case 0:
-            //bitcoin
-            var blockreward = 30000;
-            document.getElementById("block-reward").value = 30000;
-            break;
-        case 1:
-            //Doge
-            var blockreward = 20;
-            document.getElementById("block-reward").value = 20;
-            break;
+        document.getElementById("block-reward").value = 22000;
+        break;
+
+        //Doge
+        case 1: 
+        document.getElementById("block-reward").value = 44;
+        break;
+
+        //ETH
         case 2:
-            //eth
-            var blockreward = 0.005;
-            document.getElementById("block-reward").value = 0.005;
-            break;
+        document.getElementById("block-reward").value = 0.005;
+        break;
+
+        //BNB
         case 3:
-            //bnb
-            var blockreward = 0.012;
-            document.getElementById("block-reward").value = 0.012;
-            break;
+        document.getElementById("block-reward").value = 0.035;
+        break;
+
+        //Polygon
         case 4: 
-            //matic
-            var blockreward = 3;
-            document.getElementById("block-reward").value = 3;
-            console.log("matic end");
-            break;
+        document.getElementById("block-reward").value = 30;
+        break;
+
+        //SOLANA
         case 5: 
-            //SOL
-            var blockreward = 0.5;
-            document.getElementById("block-reward").value = 0.05;
-            console.log("sol end");
-            break;
+        document.getElementById("block-reward").value = 0.11;
+        break;
+
+        //TRX
         case 6:
-            //rst
-            var blockreward = 20;
-            document.getElementById("block-reward").value = 20;
-            break;
+        document.getElementById("block-reward").value = 73;
+        break;
+
+        //XRP
         case 7:
-            //trx
-            var blockreward = 150;
-            document.getElementById("block-reward").value = 150;
-            break;
-    default:
-            //RLT
-            console.log("rlt start");
-            var blockreward = 60;
-            document.getElementById("block-reward").value = 60;
-            break;
+        document.getElementById("block-reward").value = 12;
+        break;
+
+       //RLT
+       default:
+       document.getElementById("block-reward").value = 30;
+        break;
     }
 }
 
@@ -79,28 +77,30 @@ function supportMeToggle() {
 
 function calculateGoalPower() {
     console.log("Calculate Begin");
-    var netpower = parseFloat(document.getElementById("network-power").value);
-    var goalpower = parseFloat(document.getElementById("goal-power").value);
-    var blockreward = parseFloat(document.getElementById("block-reward").value);
+    let netpower = parseFloat(document.getElementById("network-power").value);
+    let goalpower = parseFloat(document.getElementById("goal-power").value);
+    let blockreward = parseFloat(document.getElementById("block-reward").value);
 
     switch (document.getElementById("network-power-selector").selectedIndex) {
         case 0:
             netpower *= 1000000000;
-            console.log("Netpower after ghs conversion: " + netpower);
+            console.log("Poder de Red en GH/S" + netpower);
             break;
         case 1:
             netpower *= 1000000000000;
-            console.log("Netpower after ths conversion: " + netpower);
+            console.log("Poder de Red en PH/S " + netpower);
             break;
         case 2:
             netpower *= 1000000000000000;
-            console.log("Netpower after phs conversion: " + netpower);
+            console.log("Poder de Red en EH/S " + netpower);
             break;
+
         default:
-            netpower *= 1000000000000000000;
-            console.log("Netpower after ehs conversion: " + netpower);
+            netpower *= 1000000000000000000000;
+            console.log("Poder de Red en ZH/S " + netpower);
             break;
     }
+
     switch (document.getElementById("goal-power-selector").selectedIndex) {
         case 0:
             //GH/s
@@ -117,25 +117,26 @@ function calculateGoalPower() {
             goalpower *= 1000000000000000;
             console.log("goalpwer after phs conversion: " + goalpower);
             break;
-        default:
+
+        case 3:
             //EH/s
             goalpower *= 1000000000000000000;
             console.log("goalpwer after ehs conversion: " + goalpower);
+
+            break;
+        default:
+            //ZH/s
+            goalpower *= 1000000000000000000000;
+            console.log("goalpwer after ehs conversion: " + goalpower);
             break;
     }
-    console.log("Block: " + blockreward);
-    var exp_reward = blockreward * (goalpower / netpower);
 
-    console.log("exp. reward " + exp_reward.toFixed(4));
+    let exp_reward = blockreward * (goalpower / netpower);
 
     //All timers are now the same 2021-04-19
     let blockInput = parseFloat(document.getElementById("block-timer").value);
     const BlockTimer = blockInput * 60;
-    console.log("Blocktimer is: " + BlockTimer + ". (" + blockInput + " * 60");
-    const secFullDay = 86400;
-
     const dailyBlocks = secFullDay / BlockTimer;
-    console.log(exp_reward);
 
     switch (document.getElementById("block-type").selectedIndex) {
         case 0:
@@ -187,22 +188,24 @@ function calculateGoalPower() {
             document.getElementById("weekly").innerHTML = (solResult * 7).toFixed(8) + " RLT";
             document.getElementById("monthly").innerHTML = (solResult * 30).toFixed(8) + " RLT";
             break;
+    
         case 7:
-            document.getElementById("exp_reward").innerHTML = exp_reward.toFixed(8) + " RST";
-            var solResult = (exp_reward * dailyBlocks).toFixed(8);
-            document.getElementById("daily").innerHTML = solResult + " RST";
-            document.getElementById("weekly").innerHTML = (solResult * 7).toFixed(8) + " RST";
-            document.getElementById("monthly").innerHTML = (solResult * 30).toFixed(8) + " RST";
-            break;
-        case 8:
             document.getElementById("exp_reward").innerHTML = exp_reward.toFixed(8) + " TRX";
             var rltResult = (exp_reward * dailyBlocks).toFixed(4);
             document.getElementById("daily").innerHTML = rltResult + " TRX";
             document.getElementById("weekly").innerHTML = (rltResult * 7).toFixed(4) + " TRX";
             document.getElementById("monthly").innerHTML = (rltResult * 30).toFixed(4) + " TRX";
             break;
+
+        case 8:
+            document.getElementById("exp_reward").innerHTML = exp_reward.toFixed(8) + " XRP";
+            var rltResult = (exp_reward * dailyBlocks).toFixed(4);
+            document.getElementById("daily").innerHTML = rltResult + " XRP";
+            document.getElementById("weekly").innerHTML = (rltResult * 7).toFixed(4) + " XRP";
+            document.getElementById("monthly").innerHTML = (rltResult * 30).toFixed(4) + " XRP";
+            break;
         default:
-            console.log("Something went wrong");
+            alert("Ha ocurrido un error inesperado");
             break;
     }
 }
